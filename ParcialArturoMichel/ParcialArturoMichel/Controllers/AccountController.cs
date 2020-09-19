@@ -54,6 +54,7 @@ namespace ParcialArturoMichel.Controllers
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
+        [Authorize]
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
@@ -68,6 +69,7 @@ namespace ParcialArturoMichel.Controllers
 
         // POST api/Account/Logout
         [Route("Logout")]
+        [Authorize]
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
@@ -76,6 +78,7 @@ namespace ParcialArturoMichel.Controllers
 
         // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
+        [Authorize]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -116,6 +119,7 @@ namespace ParcialArturoMichel.Controllers
 
         // POST api/Account/ChangePassword
         [Route("ChangePassword")]
+        [Authorize]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -136,6 +140,7 @@ namespace ParcialArturoMichel.Controllers
 
         // POST api/Account/SetPassword
         [Route("SetPassword")]
+        [Authorize]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -155,6 +160,7 @@ namespace ParcialArturoMichel.Controllers
 
         // POST api/Account/AddExternalLogin
         [Route("AddExternalLogin")]
+        [Authorize]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -193,6 +199,7 @@ namespace ParcialArturoMichel.Controllers
 
         // POST api/Account/RemoveLogin
         [Route("RemoveLogin")]
+        [Authorize]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -223,7 +230,7 @@ namespace ParcialArturoMichel.Controllers
         // GET api/Account/ExternalLogin
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
-        [AllowAnonymous]
+        [Authorize]
         [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
@@ -278,7 +285,7 @@ namespace ParcialArturoMichel.Controllers
         }
 
         // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
-        [AllowAnonymous]
+        [Authorize]
         [Route("ExternalLogins")]
         public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
         {
@@ -319,7 +326,7 @@ namespace ParcialArturoMichel.Controllers
         }
 
         // POST api/Account/Register
-        [AllowAnonymous]
+        [Authorize]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
@@ -341,6 +348,7 @@ namespace ParcialArturoMichel.Controllers
         }
 
         // POST api/Account/RegisterExternal
+        [Authorize]
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
